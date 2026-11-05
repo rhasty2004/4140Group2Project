@@ -141,6 +141,7 @@ function HomePage() {
           <a href="#learn">Learn</a>
           <a href="#how-it-works">How It Works</a>
           <a href="#resources">Local Resources</a>
+          <a href='#Games'>Play</a>
         </div>
       </nav>
 
