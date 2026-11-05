@@ -205,16 +205,25 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="resources-section" id="resources">
-          <div>
-            <p className="eyebrow">YOUR COMMUNITY</p>
-            <h2>Check Local Transit Information</h2>
-            <p>
-              Routes, schedules, fares, and payment options depend on where you live.
-              Visit your local transit agency’s website for the latest information.
-            </p>
-          </div>
-        </section>
+<section className="resources-section" id="resources">
+  <div>
+    <p className="eyebrow">YOUR COMMUNITY</p>
+    <h2>Check Local Transit Information</h2>
+    <p>
+      Routes, schedules, fares, and payment options depend on where you live.
+      Visit your local transit agency’s website for the latest information.
+    </p>
+
+    <a
+      className="button primary"
+      href="https://www.apta.com/membership/our-members/transit-agencies/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Find a Transit Agency
+    </a>
+  </div>
+</section>
       </main>
 
       <footer>
