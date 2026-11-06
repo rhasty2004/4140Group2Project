@@ -313,6 +313,10 @@ footer p {
   font-weight: bold;
 }
 
+.learn-more:hover {
+  text-decoration: underline;
+}
+
 .steps-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
