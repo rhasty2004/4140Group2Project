@@ -3,7 +3,7 @@ import './App.css'
 
 const lessons = {
   'transit-basics': {
-   // icon: '🚌',
+    icon: '🚌',
     title: 'Transit Basics',
     intro: 'Learn what to expect when you take public transportation.',
     sections: [
@@ -22,7 +22,7 @@ const lessons = {
     ],
   },
   'routes-stops': {
-   // icon: '📍',
+    icon: '📍',
     title: 'Routes & Stops',
     intro: 'Understand route numbers, maps, and the stops along the way.',
     sections: [
@@ -84,25 +84,25 @@ const topics = [
   {
     id: 'transit-basics',
    // icon: '🚌',
-    title: 'Transit Basics',
+    title: '[🚌] Transit Basics',
     description: 'Learn how public transportation works and what to expect on your first ride.',
   },
   {
     id: 'routes-stops',
    // icon: '📍',
-    title: 'Routes & Stops',
+    title: '[📍] Routes & Stops',
     description: 'Find your route, read a map, and know where to board and get off.',
   },
   {
     id: 'fares-payments',
    // icon: '🎫',
-    title: 'Fares & Payments',
+    title: '[🎫] Fares & Payments',
     description: 'Explore common ways to pay and prepare your fare before boarding.',
   },
   {
     id: 'planning-a-trip',
    // icon: '🗺️',
-    title: 'Planning a Trip',
+    title: '[🗺️] Planning a Trip',
     description: 'Plan a journey step by step, from your starting point to your destination.',
   },
 ]
