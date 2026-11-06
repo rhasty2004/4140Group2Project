@@ -66,7 +66,6 @@ a {
 }
 
 h1 {
-  max-width: 650px;
   margin: 12px 0;
   font-size: clamp(38px, 5vw, 60px);
   line-height: 1.1;
