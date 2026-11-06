@@ -387,6 +387,11 @@ footer {
   font-weight: bold;
 }
 
+/* i did not know you could group things like that -andrew */
+.home-link:hover, .back-link:hover {
+  text-decoration: underline;
+}
+
 .lesson-content {
   display: grid;
   max-width: 850px;
