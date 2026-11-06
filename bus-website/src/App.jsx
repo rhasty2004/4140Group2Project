@@ -196,6 +196,7 @@ function HomePage() {
           <a href="#how-it-works" onClick={(event) => scrollToSection(event, 'how-it-works')}>How It Works</a>
           <a href="#Games" onClick={(event) => scrollToSection(event, 'Games')}>Play</a>
           <a href="#resources" onClick={(event) => scrollToSection(event, 'resources')}>Local Resources</a>
+          <a href="#ride-log" onClick={(event) => scrollToSection(event, 'ride-log')}>Ride Log</a>
 
         </div>
       </nav>
@@ -264,6 +265,7 @@ function HomePage() {
         </section>
 
 <GameSection />
+<RideLog />
 
 <section className="resources-section" id="resources">
   <div>
@@ -592,5 +594,69 @@ function GameSection() {
     </section>
   )
 }
+
+function RideLog() {
+  const [rides, setRides] = useState([])
+
+  function addRide(event) {
+    event.preventDefault()
+    const form = event.currentTarget
+    const name = form.elements.rideName.value.trim()
+    if (!name) return
+
+    setRides((previousRides) => [
+      ...previousRides,
+      {
+        name,
+        miles: form.elements.miles.value,
+        minutes: form.elements.minutes.value,
+      },
+    ])
+    form.reset()
+  }
+
+  return (
+    <section className="learning-section" id="ride-log">
+      <div className="section-heading">
+        <p className="eyebrow">Traveled Somewhere?</p>
+        <h2>Ride Log</h2>
+        <p>Keep track of the trips you take.</p>
+      </div>
+
+      <div className="step-card" style={{ maxWidth: '650px', margin: '0 auto', textAlign: 'left' }}>
+        <form onSubmit={addRide}>
+          <label style={{ display: 'block', marginBottom: '12px' }}>
+            Ride name
+            <input name="rideName" type="text" required style={{ display: 'block', width: '100%', padding: '8px' }} />
+          </label>
+
+          <label style={{ display: 'block', marginBottom: '12px' }}>
+            Distance (miles)
+            <input name="miles" type="number" min="0.01" step="any" required style={{ display: 'block', width: '100%', padding: '8px' }} />
+          </label>
+
+          <label style={{ display: 'block', marginBottom: '12px' }}>
+            Ride time (minutes)
+            <input name="minutes" type="number" min="1" step="1" required style={{ display: 'block', width: '100%', padding: '8px' }} />
+          </label>
+
+          <button className="button primary" type="submit">Add Ride</button>
+        </form>
+
+        {rides.length > 0 && (
+          <div aria-live="polite" style={{ marginTop: '24px' }}>
+            <h3>Your rides</h3>
+            <ul>
+              {rides.map((ride, index) => (
+                <li key={index}>{ride.name}: {ride.miles} miles, {ride.minutes} minutes</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 
 export default App
