@@ -206,7 +206,7 @@ function HomePage() {
           </div>
         </section>
 
-<TransitQuiz />
+<GameSection />
 
 <section className="resources-section" id="resources">
   <div>
@@ -333,7 +333,7 @@ function TransitQuiz() {
   }
 
   return (
-    <section className="steps-section" id="Games">
+    <section className="steps-section">
       <div className="section-heading">
         <p className="eyebrow">READY TO PLAY?</p>
         <h2>Test Your Transit Knowledge</h2>
@@ -387,6 +387,129 @@ function TransitQuiz() {
           </div>
         )}
       </div>
+    </section>
+  )
+}
+
+
+function RouteGame() {
+  const connections = {
+    Library: ['Park', 'Market'],
+    Park: ['Library', 'Museum'],
+    Market: ['Library', 'Station'],
+    Station: ['Market', 'Museum'],
+    Museum: ['Park', 'Station'],
+  }
+
+  const [route, setRoute] = useState(['Library'])
+  const currentStop = route[route.length - 1]
+  const arrived = currentStop === 'Museum'
+
+  function visitStop(stop) {
+    setRoute([...route, stop])
+  }
+
+  function startOver() {
+    setRoute(['Library'])
+  }
+
+  return (
+    <section className="learning-section" aria-labelledby="route-game-title">
+      <div className="section-heading">
+        <p className="eyebrow">PLAN A TRIP</p>
+        <h2 id="route-game-title">Find Your Route</h2>
+        <p>
+          Travel from the Library to the Museum.
+          Choose one connected stop at a time.
+        </p>
+      </div>
+
+      <div
+        className="step-card"
+        style={{ maxWidth: '650px', margin: '0 auto' }}
+      >
+        <h3>Bus connections</h3>
+        <p>Library ↔ Park ↔ Museum</p>
+        <p>Library ↔ Market ↔ Station ↔ Museum</p>
+
+        <div aria-live="polite" style={{ margin: '20px 0' }}>
+          <p><strong>Current stop:</strong> {currentStop}</p>
+          <p><strong>Your route:</strong> {route.join(' → ')}</p>
+          {arrived && <p>You made it in {route.length - 1} stops!</p>}
+        </div>
+
+        {!arrived && (
+          <div>
+            <p>Choose your next stop:</p>
+            {connections[currentStop].map((stop) => (
+              <button
+                key={stop}
+                className="button secondary"
+                type="button"
+                style={{ margin: '8px' }}
+                onClick={() => visitStop(stop)}
+              >
+                {stop}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button className="button primary" type="button" onClick={startOver}>
+          {arrived ? 'Play Again' : 'Start Over'}
+        </button>
+      </div>
+    </section>
+  )
+}
+
+function GameSection() {
+  const [game, setGame] = useState(null)
+
+  return (
+    <section id="Games">
+      {game === null ? (
+        <div className="steps-section">
+          <div className="section-heading">
+            <p className="eyebrow">READY TO PLAY?</p>
+            <h2>Choose a Game</h2>
+            <p>Test your knowledge or practice planning a route.</p>
+
+            <div className="hero-buttons">
+              <button
+                className="button primary"
+                type="button"
+                onClick={() => setGame('quiz')}
+              >
+                Transit Quiz
+              </button>
+
+              <button
+                className="button secondary"
+                type="button"
+                onClick={() => setGame('route')}
+              >
+                Find Your Route
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div style={{ textAlign: 'center', paddingTop: '30px' }}>
+            <button
+              className="button secondary"
+              type="button"
+              onClick={() => setGame(null)}
+            >
+              ← Choose Another Game
+            </button>
+          </div>
+
+          {game === 'quiz' && <TransitQuiz />}
+          {game === 'route' && <RouteGame />}
+        </div>
+      )}
     </section>
   )
 }
