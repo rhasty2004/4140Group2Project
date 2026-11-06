@@ -127,6 +127,43 @@ function App() {
   return <HomePage />
 }
 
+function BackToTopButton() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const toggleVisible = () => {
+      if (window.pageYOffset > 300) {
+        setVisible(true)
+      } else {
+        setVisible(false)
+      }
+    }
+
+    window.addEventListener('scroll', toggleVisible)
+    return () => window.removeEventListener('scroll', toggleVisible)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
+  if (!visible) return null
+
+  return (
+    <button
+      type="button"
+      className="back-to-top"
+      onClick={scrollToTop}
+      aria-label="Back to top"
+    >
+      ↑ Top
+    </button>
+  )
+}
+
 function getPageFromHash() {
   return window.location.hash.replace('#', '')
 }
@@ -235,6 +272,7 @@ function HomePage() {
       <footer>
         <p>Transit Finder · A friendly guide to getting around</p>
       </footer>
+	  <BackToTopButton />
     </div>
   )
 }
@@ -273,6 +311,8 @@ function LessonPage({ lesson }) {
       <footer>
         <p>Transit Finder · A friendly guide to getting around</p>
       </footer>
+
+	  <BackToTopButton />
     </div>
   )
 }
@@ -302,6 +342,24 @@ function TransitQuiz() {
       ],
       answer: 1,
     },
+	{
+	  question: 'What is a helpful habit when waiting for and boarding a transit vehicle?',
+	  options: [
+		'Stand directly in front of the closing doors',
+		'Wait until the vehicle starts moving to look for your fare',
+		'Arrive a little early',
+	  ],
+	  answer: 2,
+	},
+	{
+	  question: 'When using a trip planner, what should you review before choosing your route?',
+	  options: [
+		'Only the color of the bus stop sign',
+		'Departure times, walking distances, and transfers',
+		'The driver’s schedule for the weekend'
+	  ],
+	  answer: 1,
+	},
   ]
 
   const [questionIndex, setQuestionIndex] = useState(0)
