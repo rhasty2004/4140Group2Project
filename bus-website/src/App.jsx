@@ -3,7 +3,7 @@ import './App.css'
 
 const lessons = {
   'transit-basics': {
-    icon: '🚌',
+   // icon: '🚌',
     title: 'Transit Basics',
     intro: 'Learn what to expect when you take public transportation.',
     sections: [
@@ -22,7 +22,7 @@ const lessons = {
     ],
   },
   'routes-stops': {
-    icon: '📍',
+   // icon: '📍',
     title: 'Routes & Stops',
     intro: 'Understand route numbers, maps, and the stops along the way.',
     sections: [
@@ -83,25 +83,25 @@ const lessons = {
 const topics = [
   {
     id: 'transit-basics',
-    icon: '🚌',
+   // icon: '🚌',
     title: 'Transit Basics',
     description: 'Learn how public transportation works and what to expect on your first ride.',
   },
   {
     id: 'routes-stops',
-    icon: '📍',
+   // icon: '📍',
     title: 'Routes & Stops',
     description: 'Find your route, read a map, and know where to board and get off.',
   },
   {
     id: 'fares-payments',
-    icon: '🎫',
+   // icon: '🎫',
     title: 'Fares & Payments',
     description: 'Explore common ways to pay and prepare your fare before boarding.',
   },
   {
     id: 'planning-a-trip',
-    icon: '🗺️',
+   // icon: '🗺️',
     title: 'Planning a Trip',
     description: 'Plan a journey step by step, from your starting point to your destination.',
   },
@@ -113,7 +113,7 @@ function App() {
   useEffect(() => {
     function updatePage() {
       setPage(getPageFromHash())
-      window.scrollTo(0, 0)
+     if (getPageFromHash() !== 'Games') window.scrollTo(0, 0)
     }
 
     window.addEventListener('hashchange', updatePage)
@@ -141,6 +141,7 @@ function HomePage() {
           <a href="#learn">Learn</a>
           <a href="#how-it-works">How It Works</a>
           <a href="#resources">Local Resources</a>
+          <a href='#Games'>Play</a>
         </div>
       </nav>
 
@@ -205,16 +206,27 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="resources-section" id="resources">
-          <div>
-            <p className="eyebrow">YOUR COMMUNITY</p>
-            <h2>Check Local Transit Information</h2>
-            <p>
-              Routes, schedules, fares, and payment options depend on where you live.
-              Visit your local transit agency’s website for the latest information.
-            </p>
-          </div>
-        </section>
+<GameSection />
+
+<section className="resources-section" id="resources">
+  <div>
+    <p className="eyebrow">YOUR COMMUNITY</p>
+    <h2>Check Local Transit Information</h2>
+    <p>
+      Routes, schedules, fares, and payment options depend on where you live.
+      Visit your local transit agency’s website for the latest information.
+    </p>
+
+    <a
+      className="button primary"
+      href="https://www.apta.com/membership/our-members/transit-agencies/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Find a Transit Agency
+    </a>
+  </div>
+</section>
       </main>
 
       <footer>
@@ -259,6 +271,246 @@ function LessonPage({ lesson }) {
         <p>Transit Finder · A friendly guide to getting around</p>
       </footer>
     </div>
+  )
+}
+
+function TransitQuiz() {
+  const questions = [
+    {
+      question: 'A bus goes from the Library to the Park to the Museum. Which direction should you ride to reach the Museum?',
+      options: ['Toward the Museum', 'Away from the Museum', 'Either direction'],
+      answer: 0,
+    },
+    {
+      question: 'What should you check before boarding a bus?',
+      options: [
+        'The color of the bus',
+        'The route number and direction',
+        'The number of passengers',
+      ],
+      answer: 1,
+    },
+    {
+      question: 'What should you do when the bus arrives?',
+      options: [
+        'Board before anyone exits',
+        'Let passengers exit first',
+        'Stand in front of the doors',
+      ],
+      answer: 1,
+    },
+  ]
+
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const [selectedAnswer, setSelectedAnswer] = useState(null)
+  const [score, setScore] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  const question = questions[questionIndex]
+
+  function selectAnswer(index) {
+    setSelectedAnswer(index)
+
+    if (index === question.answer) {
+      setScore(score + 1)
+    }
+  }
+
+  function nextQuestion() {
+    if (questionIndex === questions.length - 1) {
+      setFinished(true)
+    } else {
+      setQuestionIndex(questionIndex + 1)
+      setSelectedAnswer(null)
+    }
+  }
+
+  function playAgain() {
+    setQuestionIndex(0)
+    setSelectedAnswer(null)
+    setScore(0)
+    setFinished(false)
+  }
+
+  return (
+    <section className="steps-section">
+      <div className="section-heading">
+        <p className="eyebrow">READY TO PLAY?</p>
+        <h2>Test Your Transit Knowledge</h2>
+        <p>Try this quick quiz to practice what you learned.</p>
+      </div>
+
+      <div
+        className="step-card"
+        style={{ maxWidth: '650px', margin: '0 auto' }}
+      >
+        {finished ? (
+          <div>
+            <h3>Quiz complete!</h3>
+            <p>You scored {score} out of {questions.length}.</p>
+            <button className="button primary" type="button" onClick={playAgain}>
+              Play Again
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p>Question {questionIndex + 1} of {questions.length}</p>
+            <h3>{question.question}</h3>
+
+            {question.options.map((option, index) => (
+              <button
+                key={option}
+                type="button"
+                className="button secondary"
+                style={{ display: 'block', margin: '10px auto' }}
+                disabled={selectedAnswer !== null}
+                onClick={() => selectAnswer(index)}
+              >
+                {option}
+              </button>
+            ))}
+
+            {selectedAnswer !== null && (
+              <div aria-live="polite">
+                <p>
+                  {selectedAnswer === question.answer
+                    ? 'Correct!'
+                    : `Not quite. The answer is: ${question.options[question.answer]}.`}
+                </p>
+                <button className="button primary" type="button" onClick={nextQuestion}>
+                  {questionIndex === questions.length - 1
+                    ? 'See Results'
+                    : 'Next Question'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+
+function RouteGame() {
+  const connections = {
+    Library: ['Park', 'Market'],
+    Park: ['Library', 'Museum'],
+    Market: ['Library', 'Station'],
+    Station: ['Market', 'Museum'],
+    Museum: ['Park', 'Station'],
+  }
+
+  const [route, setRoute] = useState(['Library'])
+  const currentStop = route[route.length - 1]
+  const arrived = currentStop === 'Museum'
+
+  function visitStop(stop) {
+    setRoute([...route, stop])
+  }
+
+  function startOver() {
+    setRoute(['Library'])
+  }
+
+  return (
+    <section className="learning-section" aria-labelledby="route-game-title">
+      <div className="section-heading">
+        <p className="eyebrow">PLAN A TRIP</p>
+        <h2 id="route-game-title">Find Your Route</h2>
+        <p>
+          Travel from the Library to the Museum.
+          Choose one connected stop at a time.
+        </p>
+      </div>
+
+      <div
+        className="step-card"
+        style={{ maxWidth: '650px', margin: '0 auto' }}
+      >
+        <h3>Bus connections</h3>
+        <p>Library ↔ Park ↔ Museum</p>
+        <p>Library ↔ Market ↔ Station ↔ Museum</p>
+
+        <div aria-live="polite" style={{ margin: '20px 0' }}>
+          <p><strong>Current stop:</strong> {currentStop}</p>
+          <p><strong>Your route:</strong> {route.join(' → ')}</p>
+          {arrived && <p>You made it in {route.length - 1} stops!</p>}
+        </div>
+
+        {!arrived && (
+          <div>
+            <p>Choose your next stop:</p>
+            {connections[currentStop].map((stop) => (
+              <button
+                key={stop}
+                className="button secondary"
+                type="button"
+                style={{ margin: '8px' }}
+                onClick={() => visitStop(stop)}
+              >
+                {stop}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button className="button primary" type="button" onClick={startOver}>
+          {arrived ? 'Play Again' : 'Start Over'}
+        </button>
+      </div>
+    </section>
+  )
+}
+
+function GameSection() {
+  const [game, setGame] = useState(null)
+
+  return (
+    <section id="Games">
+      {game === null ? (
+        <div className="steps-section">
+          <div className="section-heading">
+            <p className="eyebrow">READY TO PLAY?</p>
+            <h2>Choose a Game</h2>
+            <p>Test your knowledge or practice planning a route.</p>
+
+            <div className="hero-buttons">
+              <button
+                className="button primary"
+                type="button"
+                onClick={() => setGame('quiz')}
+              >
+                Transit Quiz
+              </button>
+
+              <button
+                className="button secondary"
+                type="button"
+                onClick={() => setGame('route')}
+              >
+                Find Your Route
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div style={{ textAlign: 'center', paddingTop: '30px' }}>
+            <button
+              className="button secondary"
+              type="button"
+              onClick={() => setGame(null)}
+            >
+              ← Choose Another Game
+            </button>
+          </div>
+
+          {game === 'quiz' && <TransitQuiz />}
+          {game === 'route' && <RouteGame />}
+        </div>
+      )}
+    </section>
   )
 }
 

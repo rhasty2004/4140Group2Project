@@ -407,3 +407,26 @@ footer {
 .hero-buttons {
   justify-content: center;
 }
+
+.lesson-hero {
+  text-align: center;
+}
+
+.lesson-hero .back-link {
+  display: block;
+  text-align: left;
+}
+
+.lesson-icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lesson-hero h1 {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: center;
+}
+
