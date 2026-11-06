@@ -46,6 +46,7 @@ a {
 
 .nav-links a:hover {
   color: #176b58;
+  text-decoration: underline;
 }
 
 .hero {
@@ -127,12 +128,17 @@ h1 {
 
 .primary:hover {
   background: #105343;
+  text-decoration: underline;
 }
 
 .secondary {
   border: 1px solid #176b58;
   color: #176b58;
   background: #ffffff;
+}
+
+.secondary:hover {
+  text-decoration: underline;
 }
 
 .learning-section,
