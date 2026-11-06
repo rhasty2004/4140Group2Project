@@ -203,6 +203,8 @@ function HomePage() {
               <h3>Follow your trip</h3>
               <p>Board the right vehicle and watch for your destination stop.</p>
             </article>
+            <div class="pretty-arrow-left">»</div>
+            <div class="pretty-arrow-right">»</div>
           </div>
         </section>
 
@@ -216,6 +218,7 @@ function HomePage() {
       Routes, schedules, fares, and payment options depend on where you live.
       Visit your local transit agency’s website for the latest information.
     </p>
+    <p>============</p>
 
     <a
       className="button primary"

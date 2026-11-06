@@ -92,6 +92,34 @@ h1 {
   font-weight: bold;
 }
 
+/*the universe's most janky arrow code in existence but it looks pretty ig*/
+
+.pretty-arrow-left {
+  position: relative;
+  font-size: 96px;
+  user-select: none;
+  left: 55%;
+  margin-top: -225px;
+}
+
+@media (max-width: 699px) {
+  .pretty-arrow-left {
+    display: none;
+  }
+  .pretty-arrow-right {
+    display: none;
+  }
+}
+
+.pretty-arrow-right {
+  text-align: right;
+  position: relative;
+  font-size: 96px;
+  user-select: none;
+  right: -14%;
+  margin-top: -225px;
+}
+
 .primary {
   background: #176b58;
   color: #ffffff;
