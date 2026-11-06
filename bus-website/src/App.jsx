@@ -113,7 +113,7 @@ function App() {
   useEffect(() => {
     function updatePage() {
       setPage(getPageFromHash())
-      window.scrollTo(0, 0)
+     if (getPageFromHash() !== 'Games') window.scrollTo(0, 0)
     }
 
     window.addEventListener('hashchange', updatePage)
@@ -206,6 +206,8 @@ function HomePage() {
           </div>
         </section>
 
+<TransitQuiz />
+
 <section className="resources-section" id="resources">
   <div>
     <p className="eyebrow">YOUR COMMUNITY</p>
@@ -269,6 +271,123 @@ function LessonPage({ lesson }) {
         <p>Transit Finder · A friendly guide to getting around</p>
       </footer>
     </div>
+  )
+}
+
+function TransitQuiz() {
+  const questions = [
+    {
+      question: 'A bus goes from the Library to the Park to the Museum. Which direction should you ride to reach the Museum?',
+      options: ['Toward the Museum', 'Away from the Museum', 'Either direction'],
+      answer: 0,
+    },
+    {
+      question: 'What should you check before boarding a bus?',
+      options: [
+        'The color of the bus',
+        'The route number and direction',
+        'The number of passengers',
+      ],
+      answer: 1,
+    },
+    {
+      question: 'What should you do when the bus arrives?',
+      options: [
+        'Board before anyone exits',
+        'Let passengers exit first',
+        'Stand in front of the doors',
+      ],
+      answer: 1,
+    },
+  ]
+
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const [selectedAnswer, setSelectedAnswer] = useState(null)
+  const [score, setScore] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  const question = questions[questionIndex]
+
+  function selectAnswer(index) {
+    setSelectedAnswer(index)
+
+    if (index === question.answer) {
+      setScore(score + 1)
+    }
+  }
+
+  function nextQuestion() {
+    if (questionIndex === questions.length - 1) {
+      setFinished(true)
+    } else {
+      setQuestionIndex(questionIndex + 1)
+      setSelectedAnswer(null)
+    }
+  }
+
+  function playAgain() {
+    setQuestionIndex(0)
+    setSelectedAnswer(null)
+    setScore(0)
+    setFinished(false)
+  }
+
+  return (
+    <section className="steps-section" id="Games">
+      <div className="section-heading">
+        <p className="eyebrow">READY TO PLAY?</p>
+        <h2>Test Your Transit Knowledge</h2>
+        <p>Try this quick quiz to practice what you learned.</p>
+      </div>
+
+      <div
+        className="step-card"
+        style={{ maxWidth: '650px', margin: '0 auto' }}
+      >
+        {finished ? (
+          <div>
+            <h3>Quiz complete!</h3>
+            <p>You scored {score} out of {questions.length}.</p>
+            <button className="button primary" type="button" onClick={playAgain}>
+              Play Again
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p>Question {questionIndex + 1} of {questions.length}</p>
+            <h3>{question.question}</h3>
+
+            {question.options.map((option, index) => (
+              <button
+                key={option}
+                type="button"
+                className="button secondary"
+                style={{ display: 'block', margin: '10px auto' }}
+                disabled={selectedAnswer !== null}
+                onClick={() => selectAnswer(index)}
+              >
+                {option}
+              </button>
+            ))}
+
+            {selectedAnswer !== null && (
+              <div aria-live="polite">
+                <p>
+                  {selectedAnswer === question.answer
+                    ? 'Correct!'
+                    : `Not quite. The answer is: ${question.options[question.answer]}.`}
+                </p>
+                <button className="button primary" type="button" onClick={nextQuestion}>
+                  {questionIndex === questions.length - 1
+                    ? 'See Results'
+                    : 'Next Question'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }
 
