@@ -120,6 +120,14 @@ function App() {
     return () => window.removeEventListener('hashchange', updatePage)
   }, [])
 
+  useEffect(() => {
+  if (!page || lessons[page]) {
+    window.scrollTo(0, 0)
+  } else {
+    document.getElementById(page)?.scrollIntoView()
+  }
+}, [page])
+
   if (page && lessons[page]) {
     return <LessonPage lesson={lessons[page]} />
   }
@@ -169,16 +177,26 @@ function getPageFromHash() {
 }
 
 function HomePage() {
+
+  function scrollToSection(event, sectionId) {
+  event.preventDefault()
+  document.getElementById(sectionId)?.scrollIntoView({
+    behavior: 'smooth',
+  })
+}
+
+
   return (
     <div className="app">
       <nav className="navbar">
         <a className="logo" href="#">Transit Finder</a>
 
         <div className="nav-links">
-          <a href="#learn">Learn</a>
-          <a href="#how-it-works">How It Works</a>
-          <a href="#resources">Local Resources</a>
-          <a href='#Games'>Play</a>
+          <a href="#learn" onClick={(event) => scrollToSection(event, 'learn')}>Learn</a>
+          <a href="#how-it-works" onClick={(event) => scrollToSection(event, 'how-it-works')}>How It Works</a>
+          <a href="#Games" onClick={(event) => scrollToSection(event, 'Games')}>Play</a>
+          <a href="#resources" onClick={(event) => scrollToSection(event, 'resources')}>Local Resources</a>
+
         </div>
       </nav>
 
